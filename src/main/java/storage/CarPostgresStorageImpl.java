@@ -36,13 +36,46 @@ public class CarPostgresStorageImpl implements CarStorage {
 
 
     @Override
-    public List<Car> getAllService() {
+    public  Service getService(long id) {
+        final  String sqlSeletBook = "SELECT * FROM service WHERE id = ?;";
+//        final  String sqlSeletBook = "SELECT * FROM books WHERE book_id = ;"+ id;
+
+        Connection connection = initializeDataBaseConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlSeletBook);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                Service service = new Service();
+                service.setId(resultSet.getInt(ID));
+                service.setValue(resultSet.getDouble(VALUE));
+                service.setData(resultSet.getDate(DATA));
+
+                return service;
+
+            }
+        } catch (SQLException e) {
+            System.err.println("Error during invoke SQL query :\n" + e.getMessage());
+            throw new RuntimeException("Error during invoke SQL query");
+        }finally {
+            closeDataBaseResources(connection,preparedStatement);
+        }
+        return null;
+    }
+
+
+
+    @Override
+    public List<Service> getAllService() {
 
         final  String sqlSelectAllService = "SELECT * FROM service;";
 
         Connection connection = initializeDataBaseConnection();
         Statement statement = null;
-        List<Car> services = new ArrayList<>();
+        List<Service> services = new ArrayList<>();
 
         try {
             statement = connection.createStatement();
@@ -97,10 +130,6 @@ public class CarPostgresStorageImpl implements CarStorage {
 
 
 
-    @Override
-    public Car getService(long id) {
-        return null;
-    }
 
     @Override
     public Car getGas(long id) {
@@ -155,9 +184,10 @@ public class CarPostgresStorageImpl implements CarStorage {
     }
 
     @Override
-    public void addService(Car car) {
+    public void addService(Service service) {
 
     }
+
 
     @Override
     public void addGas(Car car) {
