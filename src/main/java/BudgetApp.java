@@ -33,7 +33,7 @@ import java.io.IOException;
     public class BudgetApp {
 
         public static void main(String[] args) {
-            SpringApplication.run(SpringApp.class, args);
+            SpringApplication.run(BudgetApp.class, args);
         }
     }
 

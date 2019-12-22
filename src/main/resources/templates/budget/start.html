@@ -9,7 +9,7 @@
 <div class="container">
     <h2>Budget App</h2>
     <div>
-        <form action="#" th:action="@{/save_serv}" th:object="${serv}" method="post">
+        <form action="#" th:action="@{/save_serv}" th:object="${service}" method="post">
             <input type="text" th:field="*{value}" placeholder="value"><br>
             <input type="hidden" th:field="*{id}" placeholder="id"><br>
             <input type="text" th:field="*{date}" placeholder="date"><br>

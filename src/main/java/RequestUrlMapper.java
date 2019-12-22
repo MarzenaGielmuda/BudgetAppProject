@@ -33,7 +33,7 @@ public class RequestUrlMapper {
 
 
     @RequestMapping(value ="/budget_of_car/addService", method = RequestMethod.POST)
-    public ModelAndView saveService(@ModelAttribute(value = "serv") Service service) {
+    public ModelAndView saveService(@ModelAttribute(value = "service") Service service) {
 
         return carController.serveAddServiceRequest(service);
     }

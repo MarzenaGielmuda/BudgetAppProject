@@ -3,10 +3,13 @@ package controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.iki.elonen.NanoHTTPD;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import storage.CarPostgresStorageImpl;
 import storage.CarStorage;
 import type.Service;
+
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ import java.util.Map;
 
 import static fi.iki.elonen.NanoHTTPD.Response.Status.*;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
-
+@Controller
 public class CarController {
 
     private CarStorage carStorage = new CarPostgresStorageImpl();
