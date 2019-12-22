@@ -66,7 +66,18 @@ public class CarPostgresStorageImpl implements CarStorage {
     }
 
 
+    private Connection initializeDataBaseConnection(){
 
+        try {
+            return DriverManager.getConnection(POSTGRESQL_JDBC_URL,POSTGRESQL_DATABASE_USER,POSTGRESQL_DATABASE_PASS);
+        } catch (SQLException e) {
+            System.err.println("Server can't initialize database connection");
+            throw new RuntimeException("Server can't initialize database connection");
+
+        }
+
+
+    }
 
 
     private void closeDataBaseResources(Connection connection, Statement statement){
@@ -84,18 +95,7 @@ public class CarPostgresStorageImpl implements CarStorage {
     }
 
 
-    private Connection initializeDataBaseConnection(){
 
-        try {
-            return DriverManager.getConnection(POSTGRESQL_JDBC_URL,POSTGRESQL_DATABASE_USER,POSTGRESQL_DATABASE_PASS);
-        } catch (SQLException e) {
-            System.err.println("Server can't initialize database connection");
-            throw new RuntimeException("Server can't initialize database connection");
-
-        }
-
-
-    }
 
     @Override
     public Car getService(long id) {
