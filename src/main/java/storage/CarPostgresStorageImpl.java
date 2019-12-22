@@ -27,24 +27,77 @@ public class CarPostgresStorageImpl implements CarStorage {
     private final String VALUE = "value";
     private final String DATA = "date";
 
-    private final String GAZ = "gas";
-    private final String BENZYNA = "petrol";
-    private final String CZESCI = "parts";
-    private final String UBEZPIECZENIE = "insurance";
-    private final String SERWIS = "service";
-    private final String OTHER = "other";
+//    private final String GAZ = "gas";
+//    private final String BENZYNA = "petrol";
+//    private final String CZESCI = "parts";
+//    private final String UBEZPIECZENIE = "insurance";
+//    private final String SERWIS = "service";
+//    private final String OTHER = "other";
+
+
 
 
     @Override
+    public void removeService(long autoIdToDelete) {
+
+        final  String sqlSelectService = "DELETE FROM service WHERE  id= ?;";
+
+        Connection connection = initializeDataBaseConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlSelectService);
+            preparedStatement.setLong(1,autoIdToDelete);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error during invoke SQL query :\n" + e.getMessage());
+            throw new RuntimeException("Error during invoke SQL query");
+        }finally {
+            closeDataBaseResources(connection, preparedStatement);
+        }
+
+    }
+
+
+    @Override
+    public void addService(Service service) {
+
+        final String sqlInsertService = "INSERT INTO service (id, value, date)" +
+                "VALUES" +
+                "   (?,?, ?);";
+        Connection connection = initializeDataBaseConnection();
+        PreparedStatement preparedStatement = null;
+
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlInsertService);
+
+            preparedStatement.setLong(1,service.getId());
+            preparedStatement.setDouble(2,service.getValue());
+            preparedStatement.setDate(3, service.getData());
+
+            preparedStatement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.err.println("Error during invoke SQL query :\n" + e.getMessage());
+            throw new RuntimeException("Error during invoke SQL query");
+        }finally {
+            closeDataBaseResources(connection, preparedStatement);
+        }
+
+    }
+
+    @Override
     public  Service getService(long id) {
-        final  String sqlSeletBook = "SELECT * FROM service WHERE id = ?;";
+        final  String sqlSeletService = "SELECT * FROM service WHERE id = ?;";
 //        final  String sqlSeletBook = "SELECT * FROM books WHERE book_id = ;"+ id;
 
         Connection connection = initializeDataBaseConnection();
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(sqlSeletBook);
+            preparedStatement = connection.prepareStatement(sqlSeletService);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -86,6 +139,8 @@ public class CarPostgresStorageImpl implements CarStorage {
                 service.setId(resultSet.getInt(ID));
                 service.setData(resultSet.getDate(DATA));
                 service.setValue(resultSet.getDouble(VALUE));
+
+                services.add(service);
             }
         } catch (SQLException e) {
 
@@ -183,10 +238,7 @@ public class CarPostgresStorageImpl implements CarStorage {
         return null;
     }
 
-    @Override
-    public void addService(Service service) {
 
-    }
 
 
     @Override
@@ -214,10 +266,6 @@ public class CarPostgresStorageImpl implements CarStorage {
 
     }
 
-    @Override
-    public void removeService(long autoIdToDelete) {
-
-    }
 
     @Override
     public void removeGas(long autoIdToDelete) {
