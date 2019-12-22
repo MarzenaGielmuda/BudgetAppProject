@@ -1,33 +1,42 @@
 import fi.iki.elonen.NanoHTTPD;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 
-public class BudgetApp extends NanoHTTPD {
+//public class BudgetApp extends NanoHTTPD {
+//
+//    RequestUrlMapper requestUrlMapper = new RequestUrlMapper();
+//
+//    public BudgetApp (int port) throws IOException {
+//
+//        super(port);
+//        start(5000, false);
+//        System.out.println("Server has been started.");
+//    }
+//
+//    public static void main(String[] args) {
+//        try{
+//            new BudgetApp(8085);
+//        }catch (IOException e){
+//            System.out.println("Server can't started becouse of error: \n" + e);
+//        }
+//    }
 
-    RequestUrlMapper requestUrlMapper = new RequestUrlMapper();
+//    @Override
+//    public Response serve (IHTTPSession session){
+//        System.out.println();
+//        return requestUrlMapper.delegateRequest(session);
+//    }
 
-    public BudgetApp (int port) throws IOException {
+    @SpringBootApplication
+    public class BudgetApp {
 
-        super(port);
-        start(5000, false);
-        System.out.println("Server has been started.");
-    }
-
-    public static void main(String[] args) {
-        try{
-            new BudgetApp(8085);
-        }catch (IOException e){
-            System.out.println("Server can't started becouse of error: \n" + e);
+        public static void main(String[] args) {
+            SpringApplication.run(SpringApp.class, args);
         }
     }
 
-    @Override
-    public Response serve (IHTTPSession session){
-        System.out.println();
-        return requestUrlMapper.delegateRequest(session);
-    }
 
 
 
-
-}

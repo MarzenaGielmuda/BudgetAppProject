@@ -3,6 +3,7 @@ package controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.iki.elonen.NanoHTTPD;
+import org.springframework.web.servlet.ModelAndView;
 import storage.CarPostgresStorageImpl;
 import storage.CarStorage;
 import type.Service;
@@ -105,6 +106,11 @@ public class CarController {
     }
 
 
+
+    public ModelAndView serveAddServiceRequest(Service service){
+        carStorage.addService(service);
+        return null;
+    }
 
     public NanoHTTPD.Response serveRemoveServiceRequest(NanoHTTPD.IHTTPSession session) {
 
